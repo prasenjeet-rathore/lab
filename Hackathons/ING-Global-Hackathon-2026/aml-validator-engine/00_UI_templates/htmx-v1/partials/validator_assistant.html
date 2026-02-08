@@ -1,0 +1,31 @@
+{# AI investigation panel - HTMX POST /investigate with customer_id; response replaces #investigation-results #}
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-full overflow-hidden">
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <span class="text-yellow-300">✦</span>
+            <h3 class="font-bold tracking-wide">Validator Assistant</h3>
+        </div>
+        <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded font-mono">PRO-1.5</span>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-4 bg-slate-50 flex flex-col">
+        <div id="investigation-results" class="flex-1 min-h-[120px]">
+            <p class="text-sm text-ing-light-slate">Enter a Customer ID and click <strong>Investigate</strong> to run the AML agent analysis.</p>
+        </div>
+
+        <form class="mt-4 space-y-3" hx-post="/investigate" hx-target="#investigation-results" hx-swap="innerHTML" hx-indicator="#investigate-spinner">
+            <div class="relative flex items-center">
+                <input type="text" name="customer_id" placeholder="Customer ID (e.g. 982)" value="{{ case.entity_id|default(case.id|default('')) }}"
+                       class="w-full pl-4 pr-28 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm">
+                <button type="submit" id="investigate-btn" class="absolute right-2 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
+                    <span id="investigate-spinner" class="htmx-indicator inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span>Investigate</span>
+                </button>
+            </div>
+        </form>
+        <div class="flex justify-center space-x-3 flex-wrap">
+            <button type="button" class="text-[10px] text-slate-400 hover:text-indigo-600 border border-slate-100 rounded-full px-2 py-1 bg-slate-50 transition-colors">Compare peers</button>
+            <button type="button" class="text-[10px] text-slate-400 hover:text-indigo-600 border border-slate-100 rounded-full px-2 py-1 bg-slate-50 transition-colors">Check adverse media</button>
+        </div>
+    </div>
+</div>

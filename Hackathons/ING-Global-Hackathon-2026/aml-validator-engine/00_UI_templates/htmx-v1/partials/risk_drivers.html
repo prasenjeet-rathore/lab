@@ -1,0 +1,24 @@
+{# Expects: risk_drivers = [ { name: str, value: int }, ... ] (or case.top_risk_drivers) #}
+<div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm h-full flex flex-col">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-sm font-bold text-ing-slate uppercase tracking-wider flex items-center">
+            <span class="w-2 h-2 bg-ing-orange rounded-full mr-2"></span>
+            Key Risk Drivers
+        </h3>
+        <span class="text-xs text-ing-light-slate bg-slate-100 px-2 py-1 rounded">Model: XGBoost v4.2</span>
+    </div>
+    <div class="flex-1 w-full min-h-[200px] flex flex-col justify-end">
+        {% set drivers = risk_drivers|default(case.top_risk_drivers|default([])) %}
+        {% for d in drivers %}
+        <div class="flex items-center gap-3 mb-2">
+            <span class="text-xs font-medium text-ing-slate w-32 truncate" title="{{ d.name }}">{{ d.name }}</span>
+            <div class="flex-1 bg-slate-100 rounded overflow-hidden" style="max-width: 200px;">
+                <div class="h-3 rounded bg-ing-orange" style="width: {{ [d.value, 100]|min }}%;"></div>
+            </div>
+            <span class="text-xs font-mono text-ing-light-slate w-8">{{ d.value }}</span>
+        </div>
+        {% else %}
+        <p class="text-sm text-ing-light-slate italic">No risk drivers for this case.</p>
+        {% endfor %}
+    </div>
+</div>

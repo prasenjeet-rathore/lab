@@ -1,0 +1,88 @@
+{# Expects: cases = [ { id, entity_name, risk_level, status, date_opened, analyst, type } ] #}
+<div class="p-8 space-y-6 h-full overflow-y-auto">
+    <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-ing-slate">Case Management</h1>
+            <p class="text-ing-light-slate text-sm">Overview of pending and completed validations.</p>
+        </div>
+        <a href="/?view=dashboard" class="bg-ing-orange text-white px-4 py-2 rounded-lg font-semibold shadow hover:bg-ing-orange-hover transition-colors inline-flex items-center">+ New Investigation</a>
+    </div>
+
+    {% set cases_list = cases|default([]) %}
+    {% set total = cases_list|length %}
+    {% set high_risk = cases_list|selectattr('risk_level', 'equalto', 'HIGH')|list|length %}
+    {% set in_review = (cases_list|selectattr('status', 'equalto', 'IN_REVIEW')|list|length) + (cases_list|selectattr('status', 'equalto', 'OPEN')|list|length) %}
+    {% set closed = cases_list|selectattr('status', 'equalto', 'CLOSED')|list|length %}
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-ing-light-slate text-xs font-semibold uppercase tracking-wider mb-1">Total Cases</p>
+                <p class="text-2xl font-bold text-ing-slate">{{ total }}</p>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-full border border-slate-100">📁</div>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-ing-light-slate text-xs font-semibold uppercase tracking-wider mb-1">High Risk</p>
+                <p class="text-2xl font-bold text-ing-slate">{{ high_risk }}</p>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-full border border-slate-100">⚠</div>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-ing-light-slate text-xs font-semibold uppercase tracking-wider mb-1">Pending Review</p>
+                <p class="text-2xl font-bold text-ing-slate">{{ in_review }}</p>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-full border border-slate-100">🕐</div>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-ing-light-slate text-xs font-semibold uppercase tracking-wider mb-1">Completed</p>
+                <p class="text-2xl font-bold text-ing-slate">{{ closed }}</p>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-full border border-slate-100">✓</div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-100 bg-slate-50">
+            <h3 class="font-bold text-ing-slate text-sm">Active Investigations</h3>
+        </div>
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-white text-xs text-ing-light-slate uppercase font-semibold">
+                <tr>
+                    <th class="px-6 py-3 border-b border-slate-100">Case ID</th>
+                    <th class="px-6 py-3 border-b border-slate-100">Entity</th>
+                    <th class="px-6 py-3 border-b border-slate-100">Type</th>
+                    <th class="px-6 py-3 border-b border-slate-100 text-center">Risk</th>
+                    <th class="px-6 py-3 border-b border-slate-100 text-center">Status</th>
+                    <th class="px-6 py-3 border-b border-slate-100">Analyst</th>
+                    <th class="px-6 py-3 border-b border-slate-100 text-right">Date Opened</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-sm">
+                {% for c in cases_list %}
+                <tr class="hover:bg-slate-50 transition-colors cursor-pointer" role="button" tabindex="0">
+                    <td class="px-6 py-4 font-medium text-ing-slate">{{ c.id }}</td>
+                    <td class="px-6 py-4">{{ c.entity_name }}</td>
+                    <td class="px-6 py-4">
+                        <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-xs font-bold">{{ c.type|default('AML') }}</span>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="px-2 py-1 rounded-full text-xs font-bold {% if c.risk_level == 'HIGH' %}bg-red-100 text-red-700{% elif c.risk_level == 'MEDIUM' %}bg-yellow-100 text-yellow-700{% else %}bg-green-100 text-green-700{% endif %}">{{ c.risk_level|default('LOW') }}</span>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="w-2 h-2 rounded-full inline-block {% if c.status == 'OPEN' %}bg-red-500{% elif c.status == 'IN_REVIEW' %}bg-orange-500{% else %}bg-green-500{% endif %}"></span>
+                        <span class="capitalize text-slate-600 ml-1">{{ (c.status|default('OPEN')|string).replace('_', ' ').lower() }}</span>
+                    </td>
+                    <td class="px-6 py-4 text-slate-500">{{ c.analyst|default('—') }}</td>
+                    <td class="px-6 py-4 text-right text-slate-500 font-mono text-xs">{{ c.date_opened|default('—') }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" class="px-6 py-8 text-center text-ing-light-slate">No cases.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
