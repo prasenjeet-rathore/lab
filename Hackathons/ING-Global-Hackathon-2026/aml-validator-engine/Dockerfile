@@ -14,7 +14,8 @@ COPY 01_data_engine/amlsim/outputs/aml_hackathon_v1/ 01_data_engine/amlsim/outpu
 COPY 01_data_engine/amlsim/tmp/aml_hackathon_v1/ 01_data_engine/amlsim/tmp/aml_hackathon_v1/
 
 # Copy the data pipeline scripts (Producer/Consumer (Pub/Sub))
-COPY 01_data_engine/data_pipeline/ 01_data_engine/data_pipeline/
+COPY 01_data_engine/data_pipeline/ 01_data_engine/data_pipeline/ 
+COPY 03_ai_orchestrator/ 03_ai_orchestrator/
 
 # Final default command
 CMD ["/bin/bash"]

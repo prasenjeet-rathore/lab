@@ -1,0 +1,5 @@
+{
+  "name": "AML Validation Engine",
+  "description": "A high-performance, AI-powered Anti-Money Laundering dashboard for bank validators featuring network analysis and Gemini-powered risk assessment.",
+  "requestFramePermissions": []
+}

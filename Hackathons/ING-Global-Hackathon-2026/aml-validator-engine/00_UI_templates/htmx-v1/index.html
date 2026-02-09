@@ -1,0 +1,85 @@
+{# AML Validator Dashboard - HTMX template (plug-n-play for 03_ai_orchestrator)
+   Variables from backend: case, transactions, cases, risk_drivers, graph_data (see README)
+   Data shape compatible with tx_log.csv and main.py /investigate
+#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AML Validator Dashboard{% endblock %}</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+            colors: {
+              'ing-orange': '#FF6200',
+              'ing-orange-hover': '#E65800',
+              'ing-slate': '#333333',
+              'ing-light-slate': '#696969',
+              'ing-bg': '#F4F6F8',
+              'ing-deep-white': '#FFFFFF',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body { background-color: #F4F6F8; }
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+      .htmx-indicator { display: none; }
+      .htmx-indicator.htmx-request { display: inline-block; }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 font-sans pl-16">
+    {# Sidebar - fixed left #}
+    <aside class="w-16 h-screen bg-white border-r border-slate-200 flex flex-col items-center py-6 fixed left-0 top-0 z-50">
+        <div class="mb-8">
+            <div class="w-10 h-10 bg-ing-orange rounded-lg flex items-center justify-center shadow-md">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+            </div>
+        </div>
+        <nav class="flex-1 flex flex-col space-y-6 w-full items-center">
+            <a href="/?view=dashboard" class="nav-item p-3 rounded-xl transition-all duration-200 {% if view|default('dashboard') == 'dashboard' %}bg-orange-50 text-ing-orange shadow-sm border border-orange-100{% else %}text-ing-light-slate hover:bg-slate-100{% endif %}" aria-label="Dashboard">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+            </a>
+            <a href="/?view=cases" class="nav-item p-3 rounded-xl transition-all duration-200 {% if view|default('dashboard') == 'cases' %}bg-orange-50 text-ing-orange shadow-sm border border-orange-100{% else %}text-ing-light-slate hover:bg-slate-100{% endif %}" aria-label="Cases">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            </a>
+        </nav>
+    </aside>
+
+    <div class="flex flex-col h-screen overflow-hidden">
+        {% set current_view = view|default('dashboard') %}
+
+        {% if current_view == 'cases' %}
+            {# Cases list view - full width #}
+            {% include "partials/cases_page.html" %}
+        {% else %}
+            {# Dashboard view: Header + Risk / Network / AI + Transaction table #}
+            {% include "partials/header.html" %}
+            <main class="flex-1 p-4 overflow-y-auto overflow-x-hidden grid grid-cols-12 gap-4 h-full">
+                <div class="col-span-12 lg:col-span-3 h-[400px]">
+                    {% include "partials/risk_drivers.html" %}
+                </div>
+                <div class="col-span-12 lg:col-span-6 h-[400px]">
+                    {% include "partials/network_graph.html" %}
+                </div>
+                <div class="col-span-12 lg:col-span-3 h-[400px]">
+                    {% include "partials/validator_assistant.html" %}
+                </div>
+                <div class="col-span-12 h-[350px] pb-4">
+                    {% include "partials/transaction_table.html" %}
+                </div>
+            </main>
+        {% endif %}
+    </div>
+</body>
+</html>

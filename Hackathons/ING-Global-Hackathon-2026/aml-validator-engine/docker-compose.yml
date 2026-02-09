@@ -35,6 +35,8 @@ services:
     build: .
     container_name: aml_ve_pipeline
     hostname: data-pipeline
+    ports:
+      - "8000:8000"
     depends_on:
       - kafka
       - postgres
@@ -44,6 +46,7 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
       - DB_HOST=postgres
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY} # Ensure your Gemini key is in .env file
     command: tail -f /dev/null 
 
 volumes:
