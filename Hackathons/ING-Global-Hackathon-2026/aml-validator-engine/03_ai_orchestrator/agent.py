@@ -16,12 +16,7 @@ When a Customer ID is provided:
 1. Search their profile for occupation and income.
 2. Search their transaction history.
 3. Compare the two: Does the transaction volume make sense for their job?
-4. Look for 'Structuring' (many small tx) or 'Layering' (complex movements).
-
-Format your output with clear headers:
-- **RISK LEVEL**: (Low/Medium/High)
-- **FINDINGS**: (Specific numbers found in the data)
-- **CONCLUSION**: (Professional summary)
+4. Provide final information in very brief , unless asked for additional information
 """
 
 
