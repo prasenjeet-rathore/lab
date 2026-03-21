@@ -1,6 +1,6 @@
 # Credit Risk Modeling
 
-This is a comprehensive Credit Risk Modeling Knowledge Bank designed for the end-to-end development, evaluation, and deployment of credit risk models.
+Credit Risk Modeling Knowledge Bank designed for the end-to-end development, evaluation, and deployment of credit risk models.
 
 Project Organization
 
