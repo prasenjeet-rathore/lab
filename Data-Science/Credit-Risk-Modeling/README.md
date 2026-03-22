@@ -1,4 +1,4 @@
-<center><h1> Credit Risk Modeling </h1></center>
+<h1 style="text-align:center;"> Credit Risk Modeling </h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/SciPy-%230C55A5.svg?style=flat&logo=scipy&logoColor=white" />
