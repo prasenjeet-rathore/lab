@@ -18,7 +18,7 @@
 
 
 
-Credit Risk Modeling Knowledge Bank — end-to-end development, evaluation, and deployment of credit risk models. Currently implements PD (Probability of Default); LGD and EAD are scaffolded for future work.
+Credit Risk Modeling Knowledge Bank : end-to-end development, evaluation, and deployment of credit risk models. Currently implements PD (Probability of Default); LGD and EAD are scaffolded for future work.
 
 ## Quick Start
 
