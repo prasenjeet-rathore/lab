@@ -1,4 +1,17 @@
-# Credit Risk Modeling
+# Credit Risk Modeling  {style=text-align:center}
+<p align="center">
+  <img src="https://img.shields.io/badge/SciPy-%230C55A5.svg?style=flat&logo=scipy&logoColor=white" />
+  <img src="https://img.shields.io/badge/pandas-%23150458.svg?style=flat&logo=pandas&logoColor=white" />
+  <img src="https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=flat&logo=scikit-learn&logoColor=white" />
+  <img src="https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=flat&logo=Matplotlib&logoColor=black" />
+  <img src="https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi" />
+  <img src="https://img.shields.io/badge/jupyter-%23FA0F00.svg?style=flat&logo=jupyter&logoColor=white" />
+  <img src="https://img.shields.io/badge/marimo-12b47d.svg?style=flat&logo=marimo&logoColor=white" />
+  <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white" />
+  
+</p>
+
+
 
 Credit Risk Modeling Knowledge Bank designed for the end-to-end development, evaluation, and deployment of credit risk models.
 
