@@ -1,4 +1,4 @@
-.PHONY: install install-dev train train-lr train-xgb train-xgb-tuned serve test-predict docker-build docker-run mlflow-ui lint lint-fix
+.PHONY: install install-dev train train-lr train-xgb train-xgb-tuned serve test-predict podman-build podman-run podman-run-xgb podman-test-predict podman-test-predict-xgb mlflow-ui lint lint-fix
 
 # ── Environment ────────────────────────────────────────────────────────────────
 
@@ -35,20 +35,32 @@ test-predict:
 mlflow-ui:
 	uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
 
-# ── Docker ────────────────────────────────────────────────────────────────────
+# ── Docker or Podman────────────────────────────────────────────────────────────────────
 
-docker-build:
-	docker build -t credit-risk-api:latest .
+podman-build:
+	podman build -t credit-risk-api:latest .
 
-docker-run:
-	docker run -p 8000:8000 \
+podman-run:
+	podman run -p 8000:8000 \
 		-e PD_MODEL_TYPE=lr \
 		credit-risk-api:latest
 
-docker-run-xgb:
-	docker run -p 8000:8000 \
+podman-run-xgb:
+	podman run -p 8000:8000 \
 		-e PD_MODEL_TYPE=xgb \
 		credit-risk-api:latest
+
+podman-test-predict:
+	podman run --rm \
+		-e PD_MODEL_TYPE=lr \
+		credit-risk-api:latest \
+		python -m credit_risk.pd.test_prediction
+
+podman-test-predict-xgb:
+	podman run --rm \
+		-e PD_MODEL_TYPE=xgb \
+		credit-risk-api:latest \
+		python -m credit_risk.pd.test_prediction
 
 # ── Linting ───────────────────────────────────────────────────────────────────
 
