@@ -1,0 +1,6 @@
+# Agent secrets and state: never in Git
+pi-agent/secrets/
+pi-agent/state/
+pi-agent/.empty/
+
+!pi-agent/assets/*

@@ -1,0 +1,8 @@
+{
+  "defaultProvider": "deepseek",
+  "defaultModel": "deepseek-flash",
+  "defaultThinkingLevel": "low",
+  "packages": [
+    { "source": "npm:@pi-kaush/pi-tool-call-markers@X.Y.Z" }
+  ]
+}
